@@ -9,18 +9,18 @@ trait Versions
 {
     // protected $versioningAttribute = 'version';
 
-    protected static function bootVersionable()
+    protected static function bootVersions()
     {
         self::creating(function ($model) {
-            $model->{$this->versioningAttribute()} = 1;
+            $model->{$model->versioningAttribute()} = 1;
         });
 
         self::updating(function ($model) {
             DB::beginTransaction();
             $model->checkVersion();
-            $model->{$this->versioningAttribute()}++;
+            $model->{$model->versioningAttribute()}++;
         });
-        
+
         self::updated(function () {
             DB::commit();
         });
@@ -36,9 +36,16 @@ trait Versions
 
     private function lockWithoutEvents()
     {
-        DB::table($this->getTable())->lock()
+        return DB::table($this->getTable())->lock()
             ->where($this->getKeyName(), $this->getKey())
             ->first();
+    }
+
+    private function versioningAttribute()
+    {
+        return property_exists($this, 'versioningAttribute')
+            ? $this->versioningAttribute
+            : 'version';
     }
 
     private function throwInvalidVersionException()
