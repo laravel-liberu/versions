@@ -26,7 +26,7 @@ trait Versions
         });
     }
 
-    public function checkVersion(?int $version)
+    public function checkVersion(int $version = null)
     {
         if (($version ?? $this->{$this->versioningAttribute()})
             !== $this->lockWithoutEvents()->{$this->versioningAttribute()}) {
