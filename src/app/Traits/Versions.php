@@ -26,9 +26,9 @@ trait Versions
         });
     }
 
-    private function checkVersion()
+    public function checkVersion(?int $version)
     {
-        if ($this->{$this->versioningAttribute()}
+        if (($version ?? $this->{$this->versioningAttribute()})
             !== $this->lockWithoutEvents()->{$this->versioningAttribute()}) {
             $this->throwInvalidVersionException();
         }
