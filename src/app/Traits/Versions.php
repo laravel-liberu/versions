@@ -26,7 +26,7 @@ trait Versions
         });
     }
 
-    public function checkVersion(int $version = null)
+    public function checkVersion(?int $version = null)
     {
         if (($version ?? $this->{$this->versioningAttribute()})
             !== $this->lockWithoutEvents()->{$this->versioningAttribute()}) {
@@ -52,7 +52,7 @@ trait Versions
     {
         throw new ConflictHttpException(__(
             'Current record was changed since it was loaded',
-            ['class' => get_class($this)]
+            ['class' => static::class]
         ));
     }
 }
