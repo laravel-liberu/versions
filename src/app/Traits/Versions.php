@@ -11,9 +11,7 @@ trait Versions
 
     protected static function bootVersions()
     {
-        self::creating(function ($model) {
-            $model->{$model->versioningAttribute()} = 1;
-        });
+        self::creating(fn($model) => $model->{$model->versioningAttribute()} = 1);
 
         self::updating(function ($model) {
             DB::beginTransaction();
@@ -21,9 +19,7 @@ trait Versions
             $model->{$model->versioningAttribute()}++;
         });
 
-        self::updated(function () {
-            DB::commit();
-        });
+        self::updated(fn() => DB::commit());
     }
 
     public function checkVersion(int $version = null)
