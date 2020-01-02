@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelEnso\Versions\app\Traits;
+namespace LaravelEnso\Versions\App\Traits;
 
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
@@ -8,6 +8,15 @@ use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
 trait Versions
 {
     // protected $versioningAttribute = 'version';
+    public static function bootVersions()
+    {
+        self::creating(fn ($model) => $model
+            ->{$model->versioningAttribute()} = 1);
+
+        self::updating(fn ($model) => $model->incrementVersion());
+
+        self::updated(fn () => DB::commit());
+    }
 
     public function checkVersion(?int $version = null)
     {
@@ -17,17 +26,7 @@ trait Versions
         }
     }
 
-    protected static function bootVersions()
-    {
-        self::creating(fn ($model) => $model
-            ->{$model->versioningAttribute()} = 1);
-
-        self::updating(fn ($model) => $model->nextVersion());
-
-        self::updated(fn () => DB::commit());
-    }
-
-    private function nextVersion()
+    private function incrementVersion()
     {
         DB::beginTransaction();
         $this->checkVersion();
