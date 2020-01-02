@@ -9,25 +9,29 @@ trait Versions
 {
     // protected $versioningAttribute = 'version';
 
-    protected static function bootVersions()
-    {
-        self::creating(fn($model) => $model->{$model->versioningAttribute()} = 1);
-
-        self::updating(function ($model) {
-            DB::beginTransaction();
-            $model->checkVersion();
-            $model->{$model->versioningAttribute()}++;
-        });
-
-        self::updated(fn() => DB::commit());
-    }
-
-    public function checkVersion(int $version = null)
+    public function checkVersion(?int $version = null)
     {
         if (($version ?? $this->{$this->versioningAttribute()})
             !== $this->lockWithoutEvents()->{$this->versioningAttribute()}) {
             $this->throwInvalidVersionException();
         }
+    }
+
+    protected static function bootVersions()
+    {
+        self::creating(fn ($model) => $model
+            ->{$model->versioningAttribute()} = 1);
+
+        self::updating(fn ($model) => $model->nextVersion());
+
+        self::updated(fn () => DB::commit());
+    }
+
+    private function nextVersion()
+    {
+        DB::beginTransaction();
+        $this->checkVersion();
+        $this->{$this->versioningAttribute()}++;
     }
 
     private function lockWithoutEvents()
