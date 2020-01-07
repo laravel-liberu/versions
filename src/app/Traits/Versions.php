@@ -3,15 +3,15 @@
 namespace LaravelEnso\Versions\App\Traits;
 
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpKernel\Exception\ConflictHttpException;
+use LaravelEnso\Versions\App\Exceptions\Version;
 
 trait Versions
 {
     // protected $versioningAttribute = 'version';
+
     public static function bootVersions()
     {
-        self::creating(fn ($model) => $model
-            ->{$model->versioningAttribute()} = 1);
+        self::creating(fn ($model) => $model->{$model->versioningAttribute()} = 1);
 
         self::updating(fn ($model) => $model->incrementVersion());
 
@@ -22,13 +22,14 @@ trait Versions
     {
         if (($version ?? $this->{$this->versioningAttribute()})
             !== $this->lockWithoutEvents()->{$this->versioningAttribute()}) {
-            $this->throwInvalidVersionException();
+            throw Version::recordModified(static::class);
         }
     }
 
     private function incrementVersion()
     {
         DB::beginTransaction();
+
         $this->checkVersion();
         $this->{$this->versioningAttribute()}++;
     }
@@ -45,13 +46,5 @@ trait Versions
         return property_exists($this, 'versioningAttribute')
             ? $this->versioningAttribute
             : 'version';
-    }
-
-    private function throwInvalidVersionException()
-    {
-        throw new ConflictHttpException(__(
-            'Current record was changed since it was loaded',
-            ['class' => static::class]
-        ));
     }
 }
