@@ -20,10 +20,16 @@ trait Versions
 
     public function checkVersion(?int $version = null)
     {
-        if (($version ?? $this->{$this->versioningAttribute()})
-            !== $this->lockWithoutEvents()->{$this->versioningAttribute()}) {
+        if ($this->versionMismatch($version)) {
+            DB::rollback();
             throw Version::recordModified(static::class);
         }
+    }
+
+    private function versionMismatch(?int $version)
+    {
+        return ($version ?? $this->{$this->versioningAttribute()})
+            !== $this->lockWithoutEvents()->{$this->versioningAttribute()};
     }
 
     private function incrementVersion()
