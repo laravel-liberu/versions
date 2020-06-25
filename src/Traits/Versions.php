@@ -1,9 +1,9 @@
 <?php
 
-namespace LaravelEnso\Versions\App\Traits;
+namespace LaravelEnso\Versions\Traits;
 
 use Illuminate\Support\Facades\DB;
-use LaravelEnso\Versions\App\Exceptions\Version;
+use LaravelEnso\Versions\Exceptions\Version;
 
 trait Versions
 {
