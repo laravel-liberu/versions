@@ -21,7 +21,6 @@ trait Versions
     public function checkVersion(?int $version = null)
     {
         if ($this->versionMismatch($version)) {
-            DB::rollBack();
             throw Version::recordModified(static::class);
         }
     }
@@ -36,7 +35,13 @@ trait Versions
     {
         DB::beginTransaction();
 
-        $this->checkVersion();
+        try {
+            $this->checkVersion();
+        } catch (Version $th) {
+            DB::rollBack();
+            throw $th;
+        }
+
         $this->{$this->versioningAttribute()}++;
     }
 
