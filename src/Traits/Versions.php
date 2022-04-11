@@ -2,8 +2,10 @@
 
 namespace LaravelEnso\Versions\Traits;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use LaravelEnso\Versions\Exceptions\Version;
+use Throwable;
 
 trait Versions
 {
@@ -18,26 +20,26 @@ trait Versions
         self::updated(fn () => DB::commit());
     }
 
-    public function checkVersion(?int $version = null)
+    public function checkVersion(?int $version = null): void
     {
         if ($this->versionMismatch($version)) {
             throw Version::recordModified(static::class);
         }
     }
 
-    private function versionMismatch(?int $version)
+    private function versionMismatch(?int $version): bool
     {
         return ($version ?? $this->{$this->versioningAttribute()})
             !== $this->lockWithoutEvents()->{$this->versioningAttribute()};
     }
 
-    private function incrementVersion()
+    private function incrementVersion(): void
     {
         DB::beginTransaction();
 
         try {
             $this->checkVersion();
-        } catch (Version $th) {
+        } catch (Throwable $th) {
             DB::rollBack();
             throw $th;
         }
@@ -45,14 +47,14 @@ trait Versions
         $this->{$this->versioningAttribute()}++;
     }
 
-    private function lockWithoutEvents()
+    private function lockWithoutEvents(): Model
     {
         return DB::table($this->getTable())->lock()
             ->where($this->getKeyName(), $this->getKey())
             ->first();
     }
 
-    private function versioningAttribute()
+    private function versioningAttribute(): string
     {
         return property_exists($this, 'versioningAttribute')
             ? $this->versioningAttribute
