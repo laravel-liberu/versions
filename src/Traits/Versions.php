@@ -47,7 +47,7 @@ trait Versions
         $this->{$this->versioningAttribute()}++;
     }
 
-    private function lockWithoutEvents(): Model
+    private function lockWithoutEvents()
     {
         return DB::table($this->getTable())->lock()
             ->where($this->getKeyName(), $this->getKey())
