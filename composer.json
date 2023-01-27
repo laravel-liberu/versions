@@ -1,19 +1,19 @@
 {
-    "name": "laravel-enso/versions",
+    "name": "cgdsoftware/versions",
     "description": "Prevents update conflicts using the pessimistic lock pattern in Laravel",
     "keywords": [
-        "laravel-enso",
+        "cgdsoftware",
         "versions",
         "trait",
         "pessimistic-lock"
     ],
-    "homepage": "https://github.com/laravel-enso/versions",
+    "homepage": "https://github.com/cgdsoftware/versions",
     "type": "library",
     "license": "MIT",
     "authors": [{
         "name": "Adrian Ocneanu",
         "email": "aocneanu@gmail.com",
-        "homepage": "https://laravel-enso.com",
+        "homepage": "https://cgdsoftware.com",
         "role": "Developer"
     }],
     "require": {
