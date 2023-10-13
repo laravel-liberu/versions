@@ -1,14 +1,14 @@
 # Versions
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d29de6dcf01e4ae6928776f6e03284ef)](https://www.codacy.com/gh/laravel-enso/versions?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=laravel-enso/versions&amp;utm_campaign=Badge_Grade) 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/d29de6dcf01e4ae6928776f6e03284ef)](https://www.codacy.com/gh/laravel-liberu/versions?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=laravel-liberu/versions&amp;utm_campaign=Badge_Grade) 
 [![StyleCI](https://github.styleci.io/repos/134861936/shield?branch=master)](https://github.styleci.io/repos/134861936)
-[![License](https://poser.pugx.org/laravel-enso/versions/license)](https://packagist.org/packages/laravel-enso/versions)
-[![Total Downloads](https://poser.pugx.org/laravel-enso/versions/downloads)](https://packagist.org/packages/laravel-enso/versions)
-[![Latest Stable Version](https://poser.pugx.org/laravel-enso/versions/version)](https://packagist.org/packages/laravel-enso/versions)
+[![License](https://poser.pugx.org/laravel-liberu/versions/license)](https://packagist.org/packages/laravel-liberu/versions)
+[![Total Downloads](https://poser.pugx.org/laravel-liberu/versions/downloads)](https://packagist.org/packages/laravel-liberu/versions)
+[![Latest Stable Version](https://poser.pugx.org/laravel-liberu/versions/version)](https://packagist.org/packages/laravel-liberu/versions)
 
 Prevents update conflicts using the optimistic lock pattern in Laravel
 
-This package can work independently of the [Liberu](https://github.com/laravel-enso/Liberu) ecosystem.
+This package can work independently of the [Liberu](https://github.com/laravel-liberu/Liberu) ecosystem.
 
 For live examples and demos, you may visit [liberu.co.uk](https://www.liberu.co.uk)
 
