@@ -1,10 +1,10 @@
 <?php
 
-namespace LaravelEnso\Versions\Traits;
+namespace LaravelLiberu\Versions\Traits;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-use LaravelEnso\Versions\Exceptions\Version;
+use LaravelLiberu\Versions\Exceptions\Version;
 use Throwable;
 
 trait Versions
